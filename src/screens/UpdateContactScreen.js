@@ -34,7 +34,11 @@ const UpdateContactScreen = ({ route, navigation }) => {
           [name, mobile, landline, photo, isFavorite ? 1 : 0, contact.id],
           function (tx, result) {
             console.log('Contact updated successfully:', result.rowsAffected);
-            navigation.navigate('Contact List', { updatedContactId: contact.id });
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Contact List' }],
+            });
+            navigation.navigate('DrawerNavigator');
           },
           function (tx, error) {
             console.error('Error updating contact', error);
@@ -79,7 +83,12 @@ const UpdateContactScreen = ({ route, navigation }) => {
           [contact.id],
           function (tx, result) {
             console.log('Contact deleted successfully:', result.rowsAffected);
-            navigation.navigate('Contact List');
+            // navigation.replace('Contact List');
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Contact List' }],
+            });
+            navigation.navigate('DrawerNavigator');
           },
           function (tx, error) {
             console.error('Error deleting contact', error);
@@ -94,6 +103,10 @@ const UpdateContactScreen = ({ route, navigation }) => {
   };
   return (
     <View style={updateContactStyle.container}>
+      <Text style={updateContactStyle.title}>Update Contact</Text>
+      <TouchableOpacity style={updateContactStyle.deleteButton}onPress={handleDeleteContact}>
+      <Text>Delete</Text>
+      </TouchableOpacity>
       {photo ? (
         <Image source={{ uri: photo }} style={updateContactStyle.photoPreview} />
       ) : (

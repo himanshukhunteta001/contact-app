@@ -91,7 +91,7 @@ export const allContactsStyles = StyleSheet.create({
     padding: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    
+    flex:1
   },
   contactPhoto: {
     width: 50,

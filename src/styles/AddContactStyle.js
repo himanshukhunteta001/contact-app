@@ -57,11 +57,9 @@ export const addContactStyle = StyleSheet.create({
     color: '#fff',
   },
   photoPreview: {
-    width: 200,
-    height: 200,
-    marginBottom: 16,
-    borderRadius: 5,
-    alignSelf: 'center', // Center the image within the screen
+    width: 40,
+    height: 40,
+    alignSelf: 'center',
   },
   favoriteButton: {
     backgroundColor: '#28a745',
@@ -87,11 +85,11 @@ export const addContactStyle = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 16, // Add margin to separate from the input
+    marginTop: 16, 
   },
   topButton: {
     backgroundColor: '#007BFF',
     padding: 35,
-    borderRadius: 50, // Make it circular
+    borderRadius: 50,
   },
 });

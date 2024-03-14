@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { openDatabase } from 'react-native-sqlite-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 const db = openDatabase({ name: 'contacts.db', createFromLocation: 1 });
 
 const FavoriteContactsScreen = ({ navigation }) => {
   const [favoriteContacts, setFavoriteContacts] = useState([]);
+  const [forceUpdate, setForceUpdate] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    loadFavoriteContacts();
-  }, []);
+    if (isFocused) {
+      loadFavoriteContacts();
+    }
+  }, [isFocused, forceUpdate]);
 
   const loadFavoriteContacts = () => {
     db.transaction(tx => {
@@ -31,7 +36,7 @@ const FavoriteContactsScreen = ({ navigation }) => {
       onPress={() =>
         navigation.navigate('UpdateContact', {
           contact: item,
-          onContactUpdate: loadFavoriteContacts,
+          onContactUpdate: () => setForceUpdate(!forceUpdate),
         })
       }
       style={styles.contactItem}

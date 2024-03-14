@@ -1,41 +1,22 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AllContactsScreen from '../screens/AllContactsScreen';
-import AddContactScreen from '../screens/AddContactScreen';
-import UpdateContactScreen from '../screens/UpdateContactScreen';
-import FavoriteContactsScreen from '../screens/FavoriteContactsScreen';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
-const StackNav = () => {
-  const Stack = createStackNavigator();
-
-  return (
-    <Stack.Navigator initialRouteName="ContactList">
-      <Stack.Screen
-        name="ContactList"
-        component={AllContactsScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="AddContact" component={AddContactScreen} />
-      <Stack.Screen name="UpdateContact" component={UpdateContactScreen} />
-      <Stack.Screen name="FavoriteContacts" component={FavoriteContactsScreen} />
-    </Stack.Navigator>
-  );
-};
-
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native'
+import DrawerNavigator from '../navigation/DrawerNavigator'
+import UpdateContactScreen from '../screens/UpdateContactScreen'
+import AllContactsScreen from '../screens/AllContactsScreen'
+import AddContactScreen from '../screens/AddContactScreen'
+const Stack=createStackNavigator();
 const AppNavigator = () => {
-  const Drawer = createDrawerNavigator();
-
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name='Contact List' component={StackNav}  />
-        <Drawer.Screen name='FavoriteContacts' component={FavoriteContactsScreen} />
-      </Drawer.Navigator>
+        <Stack.Navigator>
+            <Stack.Screen component={DrawerNavigator} name='DrawerNavigator'options={{headerShown:false}} />
+             <Stack.Screen component={AllContactsScreen} name='Contact List' options={{headerShown:true}}/>
+             <Stack.Screen component={UpdateContactScreen} name='UpdateContact' options={{headerShown:false}}/>
+             <Stack.Screen component={AddContactScreen} name='AddContact' options={{headerShown:false}}/>
+        </Stack.Navigator>
     </NavigationContainer>
-  );
-};
-
+  )
+}
+ 
 export default AppNavigator;
-

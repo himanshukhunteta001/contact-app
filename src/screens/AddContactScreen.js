@@ -136,7 +136,11 @@ const AddContactScreen = ({ navigation }) => {
           function (tx, result) {
             if (result.insertId) {
               console.log('Contact inserted with ID:', result.insertId);
-              navigation.navigate('Contact List');
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Contact List' }],
+              });
+              navigation.navigate('DrawerNavigator');
             } else {
               console.error('Error saving contact: No insertId');
             }
@@ -179,10 +183,18 @@ const AddContactScreen = ({ navigation }) => {
 
   return (
     <View style={addContactStyle.container}>
+      <Text style={addContactStyle.title}>Add New Contact</Text>
       <View style={addContactStyle.topButtonContainer}>
+
+      {photo ?
+      <View style={{alignItems:'center',justifyContent:'center',borderRadius:70,borderWidth:1,height:80,width:80}}> 
+       <Image source={{ uri: photo }} style={{height:80,width:80,resizeMode:'cover',borderRadius:70}} />
+       </View>
+       :
         <TouchableOpacity style={addContactStyle.topButton} onPress={openImagePicker}>
           <Icon name="camera" type="font-awesome" color="#fff" size={24} />
         </TouchableOpacity>
+        }
       </View>
 
       <View style={addContactStyle.inputContainer}>
@@ -217,7 +229,7 @@ const AddContactScreen = ({ navigation }) => {
         />
       </View>
 
-      {photo && <Image source={{ uri: photo }} style={addContactStyle.photoPreview} />}
+      {/* {photo && <Image source={{ uri: photo }} style={addContactStyle.photoPreview} />} */}
       <TouchableOpacity style={addContactStyle.favoriteButton} onPress={handleToggleFavorite}>
         <Text style={addContactStyle.buttonText}>
           {isFavorite ? 'Unmark as Favorite' : 'Mark as Favorite'}
