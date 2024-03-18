@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SectionList, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native';
+import { View, Text, SectionList, TouchableOpacity, Image, TextInput, StyleSheet,Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { openDatabase } from 'react-native-sqlite-storage';
 import { allContactsStyles } from '../styles/AllContactsStyles';
@@ -83,25 +83,46 @@ const AllContactsScreen = ({ navigation, route }) => {
     navigation.navigate('UpdateContact', { contact });
   };
 
-  const handleDeleteContact = (contactId) => {
-    db.transaction(
-      function (tx) {
-        tx.executeSql(
-          'DELETE FROM contacts WHERE id = ?;',
-          [contactId],
-          function (tx, result) {
-            console.log('Contact deleted successfully:', result.rowsAffected);
-            loadContacts(); // Refresh contacts after deletion
+  const handleDeleteContact = () => {
+    Alert.alert(
+      'Delete Contact',
+      'Are you sure you want to delete this contact?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            db.transaction(
+              function (tx) {
+                tx.executeSql(
+                  'DELETE FROM contacts WHERE id = ?;',
+                  [contact.id],
+                  function (tx, result) {
+                    console.log('Contact deleted successfully:', result.rowsAffected);
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: 'Contact List' }],
+                    });
+                    navigation.navigate('DrawerNavigator');
+                  },
+                  function (tx, error) {
+                    console.error('Error deleting contact', error);
+                    console.error('SQL statement:', tx.sql);
+                  }
+                );
+              },
+              function (error) {
+                console.error('Transaction error:', error);
+              }
+            );
           },
-          function (tx, error) {
-            console.error('Error deleting contact', error);
-            console.error('SQL statement:', tx.sql);
-          }
-        );
-      },
-      function (error) {
-        console.error('Transaction error:', error);
-      }
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
     );
   };
   const renderItem = ({ item }) => (
@@ -163,7 +184,7 @@ const AllContactsScreen = ({ navigation, route }) => {
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         disableRightSwipe={true}
-        rightOpenValue={-150}
+        rightOpenValue={-130}
       />
       <TouchableOpacity style={allContactsStyles.addButton} onPress={() => navigation.navigate('AddContact')}>
         <Text style={allContactsStyles.addButtonText}>+</Text>

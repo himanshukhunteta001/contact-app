@@ -73,11 +73,11 @@ const AddContactScreen = ({ navigation }) => {
   return (
     <View style={addContactStyle.container}>
       <View style={addContactStyle.header}>
-        <HeaderBackButton onPress={() => navigation.goBack()} />
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={addContactStyle.title}>Add New Contact</Text>
-        </View>
-      </View>
+  <HeaderBackButton onPress={() => navigation.goBack()} />
+  <View style={{ flex: 1, alignItems: 'center' }}>
+    <Text style={addContactStyle.title}>Add New Contact</Text>
+  </View>
+</View>
 
 
       <View style={addContactStyle.topButtonContainer}>
