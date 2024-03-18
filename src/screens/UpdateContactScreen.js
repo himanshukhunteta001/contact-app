@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { openDatabase } from 'react-native-sqlite-storage';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'; // Import FontAwesome5 for icons
@@ -76,36 +76,52 @@ const UpdateContactScreen = ({ route, navigation }) => {
     });
   };
   const handleDeleteContact = () => {
-    db.transaction(
-      function (tx) {
-        tx.executeSql(
-          'DELETE FROM contacts WHERE id = ?;',
-          [contact.id],
-          function (tx, result) {
-            console.log('Contact deleted successfully:', result.rowsAffected);
-            // navigation.replace('Contact List');
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'Contact List' }],
-            });
-            navigation.navigate('DrawerNavigator');
+    Alert.alert(
+      'Delete Contact',
+      'Are you sure you want to delete this contact?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            db.transaction(
+              function (tx) {
+                tx.executeSql(
+                  'DELETE FROM contacts WHERE id = ?;',
+                  [contact.id],
+                  function (tx, result) {
+                    console.log('Contact deleted successfully:', result.rowsAffected);
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: 'Contact List' }],
+                    });
+                    navigation.navigate('DrawerNavigator');
+                  },
+                  function (tx, error) {
+                    console.error('Error deleting contact', error);
+                    console.error('SQL statement:', tx.sql);
+                  }
+                );
+              },
+              function (error) {
+                console.error('Transaction error:', error);
+              }
+            );
           },
-          function (tx, error) {
-            console.error('Error deleting contact', error);
-            console.error('SQL statement:', tx.sql);
-          }
-        );
-      },
-      function (error) {
-        console.error('Transaction error:', error);
-      }
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
     );
   };
   return (
     <View style={updateContactStyle.container}>
       <Text style={updateContactStyle.title}>Update Contact</Text>
-      <TouchableOpacity style={updateContactStyle.deleteButton}onPress={handleDeleteContact}>
-      <Text>Delete</Text>
+      <TouchableOpacity style={updateContactStyle.deleteButton} onPress={handleDeleteContact}>
+        <Text>Delete</Text>
       </TouchableOpacity>
       {photo ? (
         <Image source={{ uri: photo }} style={updateContactStyle.photoPreview} />

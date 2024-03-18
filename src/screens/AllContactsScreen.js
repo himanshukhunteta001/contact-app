@@ -51,9 +51,14 @@ const AllContactsScreen = ({ navigation, route }) => {
         },
         (_, error) => {
           console.error('Error loading contacts', error);
+          setContacts([]);
         }
       );
-    });
+    },
+      (error) => {
+        console.error('Transaction error:', error);
+        setContacts([]);
+      });
   };
 
   const groupContacts = (contacts) => {
@@ -107,12 +112,13 @@ const AllContactsScreen = ({ navigation, route }) => {
         })
       }
       style={[{
-        marginBottom: 15, alignItems: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 15,
+        height: 70,
         backgroundColor: '#ffffff',
         borderBottomColor: '#AEAEAE',
         borderBottomWidth: 1,
-        flexDirection: 'row',
-        padding: 15,
       }]}
     >
       {item.photo && <Image source={{ uri: item.photo }} style={allContactsStyles.contactPhoto} />}
@@ -122,12 +128,12 @@ const AllContactsScreen = ({ navigation, route }) => {
     </TouchableOpacity>
   );
 
-  const renderHiddenItem = ({item}) => (
+  const renderHiddenItem = ({ item }) => (
     <View style={styles.rowBack}>
-      <TouchableOpacity onPress={() => handleEditContact(item)}>
+      <TouchableOpacity onPress={() => handleEditContact(item)} style={[styles.backRightBtn, styles.editBtn]}>
         <Text>Edit</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleDeleteContact(item.id)}>
+      <TouchableOpacity onPress={() => handleDeleteContact(item.id)} style={[styles.backRightBtn, styles.deleteBtn]}>
         <Text>Delete</Text>
       </TouchableOpacity>
     </View>
@@ -138,48 +144,9 @@ const AllContactsScreen = ({ navigation, route }) => {
       <Text style={allContactsStyles.sectionHeaderText}>{section.title}</Text>
     </View>
   );
-  
+
   return (
-    // <View style={allContactsStyles.container}>
-    //   <View style={allContactsStyles.searchContainer}>
-    //     <TextInput
-    //       style={allContactsStyles.searchInput}
-    //       placeholder="Search contacts..."
-    //       value={searchText}
-    //       onChangeText={(text) => setSearchText(text)}
-    //     />
-    //   </View>
-
-    //   {noResults && (
-    //     <Text style={allContactsStyles.noResultsText}>No contacts found with the entered name.</Text>
-    //   )}
-
-    //   {!noResults && (
-    //     // <SectionList
-    //     //   sections={Object.entries(contacts).map(([title, data]) => ({
-    //     //     title,
-    //     //     data,
-    //     //   }))}
-    //     //   renderItem={renderItem}
-    //     //   renderSectionHeader={renderSectionHeader}
-    //     //   keyExtractor={(item, index) => index.toString()}
-    //     // />
-    //     <SwipeListView
-    //     data={newArray}
-    //     renderItem={renderItem}
-    //     renderHiddenItem={renderHiddenItem}
-    //     // leftOpenValue={150}
-    //     // rightOpenValue={-75}
-    //     swipeToOpenPercent={10}
-    //     />
-    //   )}
-
-    //   <TouchableOpacity style={allContactsStyles.addButton} onPress={() => navigation.navigate('AddContact')}>
-    //     <Text style={allContactsStyles.addButtonText}>+</Text>
-    //   </TouchableOpacity>
-    // </View>
-
-  <View style={allContactsStyles.container}>
+    <View style={allContactsStyles.container}>
       <View style={allContactsStyles.searchContainer}>
         <TextInput
           style={allContactsStyles.searchInput}
@@ -188,41 +155,47 @@ const AllContactsScreen = ({ navigation, route }) => {
           onChangeText={(text) => setSearchText(text)}
         />
       </View>
-    <SwipeListView
-      useSectionList
-      // data={newArray}
-      sections={Object.entries(contacts).map(([title, data]) => ({ title, data, }))}
-      renderSectionHeader={renderSectionHeader}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={renderItem}
-      renderHiddenItem={renderHiddenItem}
-      leftOpenValue={75}
-      rightOpenValue={-75}
-    />
-    <TouchableOpacity style={allContactsStyles.addButton} onPress={() => navigation.navigate('AddContact')}>
+      <SwipeListView
+        useSectionList
+        sections={Object.entries(contacts).map(([title, data]) => ({ title, data, }))}
+        renderSectionHeader={renderSectionHeader}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderItem}
+        renderHiddenItem={renderHiddenItem}
+        disableRightSwipe={true}
+        rightOpenValue={-150}
+      />
+      <TouchableOpacity style={allContactsStyles.addButton} onPress={() => navigation.navigate('AddContact')}>
         <Text style={allContactsStyles.addButtonText}>+</Text>
-       </TouchableOpacity>
+      </TouchableOpacity>
     </View>
-);
+  );
 
 };
 const styles = StyleSheet.create({
-  rowFront: {
-    alignItems: 'center',
-    backgroundColor: '#CCC',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-    height: 50,
-  },
   rowBack: {
     alignItems: 'center',
-
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     paddingLeft: 15,
+    paddingRight: 15,
+
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    width: 50,
+    marginLeft: 15,
+  },
+  editBtn: {
+    backgroundColor: 'blue',
+  },
+  deleteBtn: {
+    backgroundColor: 'red',
   },
 });
+
 export default AllContactsScreen;
 

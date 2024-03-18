@@ -74,7 +74,6 @@ export const updateContactStyle = StyleSheet.create({
     fontSize: 16,
   },
   deleteButton: {
-    // backgroundColor: '#dc3545',
     padding: 10,
     marginBottom: 16,
     alignItems: 'center',
@@ -82,7 +81,6 @@ export const updateContactStyle = StyleSheet.create({
     position: 'absolute',
     top: 16,
     right: 16,
-    // fontSize: 16,
   },
   deleteButtonText: {
     color: 'white',

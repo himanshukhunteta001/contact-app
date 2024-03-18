@@ -4,8 +4,8 @@ export const addContactStyle = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
-    alignItems: 'center', // Center content horizontally
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   title: {
     fontSize: 24,
@@ -29,13 +29,13 @@ export const addContactStyle = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 8,
     borderRadius: 5,
-    flexDirection: 'row', // Align items horizontally
-    alignItems: 'center', // Center vertically
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   cameraButtonContainer: {
     width: 120,
     height: 120,
-    borderRadius: 60, // Make it circular
+    borderRadius: 60,
     backgroundColor: '#007BFF',
     justifyContent: 'center',
     alignItems: 'center',
@@ -44,7 +44,7 @@ export const addContactStyle = StyleSheet.create({
   cameraImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 60, // Make it circular
+    borderRadius: 60,
   },
   button: {
     backgroundColor: '#007BFF',
@@ -86,10 +86,17 @@ export const addContactStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 16, 
+    marginBottom:16,
   },
   topButton: {
-    backgroundColor: '#007BFF',
-    padding: 35,
-    borderRadius: 50,
+     backgroundColor: '#007BFF',
+    padding: 45,
+    borderRadius: 60,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start', 
+    marginBottom: 16,
   },
 });
