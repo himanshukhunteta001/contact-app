@@ -38,10 +38,10 @@ export const updateContactStyle = StyleSheet.create({
     borderRadius: 5,
   },
   photoPreview: {
-    width: 200,
-    height: 200,
+    width: 125,
+    height: 125,
     marginBottom: 16,
-    borderRadius: 5,
+    borderRadius: 75,
   },
   cameraIcon: {
     alignItems: 'center',

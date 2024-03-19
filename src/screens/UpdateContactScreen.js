@@ -123,13 +123,17 @@ const UpdateContactScreen = ({ route, navigation }) => {
       <TouchableOpacity style={updateContactStyle.deleteButton} onPress={handleDeleteContact}>
         <Text>Delete</Text>
       </TouchableOpacity>
-      {photo ? (
-        <Image source={{ uri: photo }} style={updateContactStyle.photoPreview} />
-      ) : (
-        <TouchableOpacity style={updateContactStyle.cameraIcon} onPress={openImagePicker}>
-          <FontAwesome5 name="camera" size={50} color="#007BFF" />
-        </TouchableOpacity>
-      )}
+
+      <TouchableOpacity onPress={openImagePicker}>
+        {photo ? (
+          <Image source={{ uri: photo }} style={updateContactStyle.photoPreview} />
+        ) : (
+          <View style={updateContactStyle.cameraIcon}>
+            <FontAwesome5 name="camera" size={50} color="#007BFF" />
+          </View>
+        )}
+      </TouchableOpacity>
+
 
       <View style={updateContactStyle.inputContainer}>
         <FontAwesome5 name="user" size={20} color="#333" style={updateContactStyle.icon} />

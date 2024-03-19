@@ -83,7 +83,7 @@ const AllContactsScreen = ({ navigation, route }) => {
     navigation.navigate('UpdateContact', { contact });
   };
 
-  const handleDeleteContact = () => {
+  const handleDeleteContact = (contactId) => {
     Alert.alert(
       'Delete Contact',
       'Are you sure you want to delete this contact?',
@@ -99,9 +99,10 @@ const AllContactsScreen = ({ navigation, route }) => {
               function (tx) {
                 tx.executeSql(
                   'DELETE FROM contacts WHERE id = ?;',
-                  [contact.id],
+                  [contactId],
                   function (tx, result) {
                     console.log('Contact deleted successfully:', result.rowsAffected);
+                    
                     navigation.reset({
                       index: 0,
                       routes: [{ name: 'Contact List' }],
